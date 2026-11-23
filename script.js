@@ -97,3 +97,100 @@ async function importInvoices(input){
 }
 function newInvoice(){currentId=null;ids.forEach(k=>$(k).value='');$('reverse').value='No';const now=new Date();$('date').value=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');$('items').innerHTML='';addRow();calculate()}
 newInvoice();window.addEventListener('beforeprint',calculate);
+
+async function testSupabaseConnection() {
+  try {
+    const { data, error } =
+      await supabaseClient.auth.getSession();
+
+    if (error) throw error;
+
+    console.log("Supabase client initialized");
+    console.log(
+      "Logged in:",
+      Boolean(data.session)
+    );
+
+  } catch (error) {
+    console.error(
+      "Supabase connection error:",
+      error.message
+    );
+  }
+}
+
+testSupabaseConnection();
+
+
+async function cloudLogin() {
+  const email = document
+    .getElementById("loginEmail").value.trim();
+
+  const password = document
+    .getElementById("loginPassword").value;
+
+  const status = document
+    .getElementById("loginStatus");
+
+  if (!email || !password) {
+    status.textContent =
+      "Please enter email and password";
+    return;
+  }
+
+  status.textContent = "Logging in...";
+
+  const { data, error } =
+    await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
+
+  if (error) {
+    status.textContent = error.message;
+    return;
+  }
+
+  document.getElementById(
+    "loginPassword"
+  ).value = "";
+
+  status.textContent =
+    "Logged in successfully: " +
+    data.user.email;
+}
+
+async function cloudLogout() {
+  const { error } =
+    await supabaseClient.auth.signOut();
+
+  const status = document
+    .getElementById("loginStatus");
+
+  if (error) {
+    status.textContent = error.message;
+    return;
+  }
+
+  status.textContent = "Logged out";
+}
+
+async function checkCloudLogin() {
+  const { data, error } =
+    await supabaseClient.auth.getUser();
+
+  const status = document
+    .getElementById("loginStatus");
+
+  if (error || !data.user) {
+    status.textContent = "Not logged in";
+    return;
+  }
+
+  status.textContent =
+    "Logged in: " + data.user.email;
+}
+
+checkCloudLogin();
+
+
