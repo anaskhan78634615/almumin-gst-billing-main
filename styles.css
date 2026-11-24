@@ -289,3 +289,52 @@ body { min-width: 320px; }
     grid-area: 1 / 1;
   }
 }
+
+
+/* GST-Billing Cloud Login */
+
+.cloud-login {
+  max-width: 480px;
+  margin: 20px auto;
+  padding: 22px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.cloud-login h2 {
+  margin: 0 0 18px;
+  font-size: 20px;
+  color: #122c50;
+}
+
+.cloud-login-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cloud-login-fields input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+}
+
+.cloud-login-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.cloud-login #loginStatus {
+  margin-bottom: 0;
+  font-size: 14px;
+}
+
+@media (max-width: 520px) {
+  .cloud-login {
+    margin: 12px;
+    padding: 16px;
+  }
+}
+
